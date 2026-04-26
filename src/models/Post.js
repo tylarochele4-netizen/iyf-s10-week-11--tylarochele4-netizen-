@@ -12,20 +12,18 @@ const postSchema = new mongoose.Schema({
         required: [true, 'Content is required'],
         minlength: [10, 'Content must be at least 10 characters']
     },
+    // CHANGED: This now points to the User model
     author: {
-        type: String, // We'll change this to an Object ID in Task 22.4
-        required: [true, 'Author is required']
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    likes: {
-        type: Number,
-        default: 0
-    },
+    likes: { type: Number, default: 0 },
     tags: [String]
 }, {
     timestamps: true 
 });
 
-// Index for searching later
 postSchema.index({ title: 'text', content: 'text' });
 
 module.exports = mongoose.model('Post', postSchema);
